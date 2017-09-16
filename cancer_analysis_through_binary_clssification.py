@@ -54,5 +54,6 @@ def main():
     print("correct :",correct)
     err_percentage = (correct/len(result)) * 100
     print("error percentage :",err_percentage)
+    print(intercept)
 if __name__ == '__main__':
     main()
