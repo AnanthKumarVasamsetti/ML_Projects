@@ -84,7 +84,7 @@ def propagate(w, b, X, Y):
 
     Returns:
     params -- A dictionary containing weights w and bias b
-    grads -- A dictionary containig dw and db calculated with respect to cost
+    grads -- A dictionary containing dw and db calculated with respect to cost
     cost -- An array containing cost attained after every 100 iterations
 """
 def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost):
@@ -113,11 +113,36 @@ def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost):
                  "db" : db}
 
     return params, grads, costs
+"""
+    This function predicts output as 0/1 using learned logistic regression using (w, b)
+
+    Arguments:
+    w -- Weights, a numpy array
+    b -- Bias, a scalar value
+    X -- Input data
+
+    Returns:
+    Y_predictions -- A numpy array containing predictions for the given input data
+"""
+def predict(w, b, X):
+    m = X.shape[1]
+    w = w.reshape((X.shape[0], 1))
+    Y_predictions = np.zeros((1, m))
+
+    A = sigmoid((np.dot(w.T, X) + b))
+
+    #[print(x) for x in A]
+
+    for i in range(A.shape[1]):
+        if(A[0, i]) >= 0.5:
+            Y_predictions[0, i] = 1
+        else:
+            Y_predictions[0, i] = 0
+
+    assert(Y_predictions.shape == (1, m))
+
+    return Y_predictions
 
 w, b, X, Y = np.array([[1],[2]]), 2, np.array([[1,2],[3,4]]), np.array([[1,0]])
 params, grads, costs = optimize(w, b, X, Y, num_iterations= 100, learning_rate = 0.009, print_cost = False)
-
-print ("w = " + str(params["w"]))
-print ("b = " + str(params["b"]))
-print ("dw = " + str(grads["dw"]))
-print ("db = " + str(grads["db"]))
+print ("predictions = " + str(predict(params["w"], params["b"], X)))
